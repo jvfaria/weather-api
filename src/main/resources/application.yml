@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: weather-api
+
+server:
+  port: 8082
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  level:
+    root: INFO
+    io.github.resilience4j: DEBUG
+    com.weather.weather_api: DEBUG
