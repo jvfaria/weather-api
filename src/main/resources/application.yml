@@ -2,8 +2,13 @@ spring:
   application:
     name: weather-api
 
+project:
+  version: v1
+
 server:
   port: 8082
+  servlet:
+    context-path: /api
 
 springdoc:
   swagger-ui:
