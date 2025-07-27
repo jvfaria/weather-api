@@ -10,8 +10,13 @@ spring:
     caffeine:
       spec: maximumSize=1000,expireAfterWrite=15m
 
+project:
+  version: v1
+
 server:
-  port: 8086
+  port: 8082
+  servlet:
+    context-path: /api
 
 springdoc:
   swagger-ui:
