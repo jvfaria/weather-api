@@ -1,18 +1,51 @@
 spring:
+  aop:
+    proxy-target-class: true
+    auto: true
   application:
     name: weather-api
-
-project:
-  version: v1
+  cache:
+    type: caffeine
+    cache-names: forecastCache
+    caffeine:
+      spec: maximumSize=1000,expireAfterWrite=15m
 
 server:
-  port: 8082
-  servlet:
-    context-path: /api
+  port: 8086
 
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+weatherapi:
+  i18n:
+    enabled: true
+    locale: en_US
+  provider:
+    geocoding:
+      defaultProvider: nominatim
+      nominatim:
+        baseurl: "https://nominatim.openstreetmap.org/search"
+    forecast:
+      defaultProvider: meteo
+      meteo:
+        baseurl: "https://api.open-meteo.com/v1/forecast"
+
+resilience4j:
+  retry:
+    instances:
+      geocodeRetry:
+        maxAttempts: 3
+        waitDuration: 2s
+      forecastRetry:
+        maxAttempts: 3
+        waitDuration: 2s
 
 logging:
   level:
