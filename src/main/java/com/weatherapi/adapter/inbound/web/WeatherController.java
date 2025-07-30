@@ -1,4 +1,4 @@
-package com.weatherapi.adapter.web;
+package com.weatherapi.adapter.inbound.web;
 
 import com.weatherapi.application.WeatherApplicationService;
 import com.weatherapi.domain.dto.request.WeatherApiRequestDTO;
@@ -22,7 +22,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Slf4j
 @RequiredArgsConstructor
 public class WeatherController {
-    private WeatherApplicationService weatherApplicationService;
+    private final WeatherApplicationService weatherApplicationService;
 
 
     @GetMapping

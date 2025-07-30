@@ -19,8 +19,10 @@ public class LocaleConfiguration {
     public LocaleResolver localeResolver(LocaleProperties localeProperties) {
         AcceptHeaderLocaleResolver resolver = new AcceptHeaderLocaleResolver();
         Locale locale = Locale.forLanguageTag(localeProperties.getLocale().replace("_", "-"));
-
         resolver.setDefaultLocale(locale);
+
+        log.info("Application Locale manually set to: {}", locale);
+
         return resolver;
     }
 

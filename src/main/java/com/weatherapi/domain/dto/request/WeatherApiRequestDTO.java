@@ -1,7 +1,7 @@
 package com.weatherapi.domain.dto.request;
 
 import com.weatherapi.domain.enums.TemperatureUnitScaleEnum;
-import com.weatherapi.domain.validation.EnumValidator;
+import com.weatherapi.domain.service.EnumValidator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

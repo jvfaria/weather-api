@@ -1,11 +1,12 @@
 package com.weatherapi.application;
 
-import com.weatherapi.application.provider.forecast.ForecastProvider;
-import com.weatherapi.application.provider.forecast.ForecastProviderFactory;
-import com.weatherapi.application.provider.geocode.GeocodeProvider;
-import com.weatherapi.application.provider.geocode.GeocodeProviderFactory;
+import com.weatherapi.domain.port.ForecastProvider;
+import com.weatherapi.adapter.outbound.provider.forecast.ForecastProviderFactory;
+import com.weatherapi.domain.port.GeocodeProvider;
+import com.weatherapi.adapter.outbound.provider.geocode.GeocodeProviderFactory;
 import com.weatherapi.config.ProviderProperties;
 import com.weatherapi.domain.dto.request.WeatherApiRequestDTO;
+import com.weatherapi.domain.mapper.WeatherResponseCustomMapper;
 import com.weatherapi.domain.model.ForecastResponse;
 import com.weatherapi.domain.model.GeocodeResponse;
 import com.weatherapi.domain.model.WeatherResponse;
@@ -20,8 +21,9 @@ public class WeatherOrchestratorService {
     private final ProviderProperties providerProperties;
     private final GeocodeProviderFactory geocodeProviderFactory;
     private final ForecastProviderFactory forecastProviderFactory;
+    private final WeatherResponseCustomMapper mapper;
 
-    protected WeatherResponse execute(WeatherApiRequestDTO requestDTO) {
+    public WeatherResponse handleRetrieveWeather(WeatherApiRequestDTO requestDTO) {
         String geocodeProviderName = providerProperties.getProvider().getGeocoding().getDefaultProvider();
         GeocodeProvider geocodeProvider = geocodeProviderFactory.getProvider(geocodeProviderName);
 
@@ -31,12 +33,7 @@ public class WeatherOrchestratorService {
         GeocodeResponse location = fetchGeocodeResponse(requestDTO, geocodeProvider);
         ForecastResponse forecastResponse = fetchForecastResponse(requestDTO, forecastProvider, location);
 
-        // TODO map response mapstruct
-//        WeatherResponse weatherResponse =
-
-        return null;
-
-
+        return mapper.toWeatherResponse(location, forecastResponse);
     }
 
 

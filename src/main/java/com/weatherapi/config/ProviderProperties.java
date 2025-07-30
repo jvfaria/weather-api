@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "weatherapi.provider")
+@ConfigurationProperties(prefix = "weatherapi")
 public class ProviderProperties {
     private Provider provider = new Provider();
 

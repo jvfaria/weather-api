@@ -1,4 +1,4 @@
-package com.weatherapi.application.provider.geocode;
+package com.weatherapi.domain.port;
 
 import com.weatherapi.domain.dto.request.thirdparty.GeocodeRequestDTO;
 import com.weatherapi.domain.model.GeocodeResponse;

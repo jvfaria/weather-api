@@ -1,6 +1,7 @@
-package com.weatherapi.application.provider.forecast;
+package com.weatherapi.adapter.outbound.provider.forecast;
 
 import com.weatherapi.domain.enums.ForecastProviderEnum;
+import com.weatherapi.domain.port.ForecastProvider;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
