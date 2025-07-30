@@ -11,30 +11,30 @@ public class ProviderProperties {
     private Provider provider = new Provider();
 
     @Data
-    private static class Provider {
+    public static class Provider {
         private Geocoding geocoding = new Geocoding();
         private Forecast forecast = new Forecast();
 
         @Data
-        private static class Geocoding {
+        public static class Geocoding {
             private String defaultProvider;
             private Nominatim nominatim = new Nominatim();
             // Here could be added future providers
 
             @Data
-            private static class Nominatim {
+            public static class Nominatim {
                 private String baseUrl;
             }
         }
 
         @Data
-        private static class Forecast {
+        public static class Forecast {
             private String defaultProvider;
             private OpenMeteo meteo;
             // Here could be added future providers
 
             @Data
-            private static class OpenMeteo {
+            public static class OpenMeteo {
                 private String baseUrl;
             }
         }
