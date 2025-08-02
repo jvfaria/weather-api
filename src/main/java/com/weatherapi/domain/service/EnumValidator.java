@@ -1,4 +1,4 @@
-package com.weatherapi.domain.validation;
+package com.weatherapi.domain.service;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

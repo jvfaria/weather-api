@@ -1,6 +1,7 @@
-package com.weatherapi.application.provider.geocode;
+package com.weatherapi.adapter.outbound.provider.geocode;
 
 import com.weatherapi.domain.enums.GeocodeProviderEnum;
+import com.weatherapi.domain.port.GeocodeProvider;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;

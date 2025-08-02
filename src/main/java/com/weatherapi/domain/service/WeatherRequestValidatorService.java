@@ -1,13 +1,15 @@
-package com.weatherapi.domain.validation;
+package com.weatherapi.domain.service;
 
 import com.weatherapi.domain.dto.request.WeatherApiRequestDTO;
 import com.weatherapi.domain.exception.validation.WeatherGetValidationException;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 
-public class WeatherRequestValidator {
+@Service
+public class WeatherRequestValidatorService {
     private static final int MAX_DAYS_RANGE = 7;
 
     public void validateBusinessRules(WeatherApiRequestDTO dto) {

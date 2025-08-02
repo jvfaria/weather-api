@@ -1,4 +1,4 @@
-package com.weatherapi.application.provider.forecast;
+package com.weatherapi.domain.port;
 
 import com.weatherapi.domain.dto.request.WeatherApiRequestDTO;
 import com.weatherapi.domain.dto.request.thirdparty.ForecastRequestDTO;
