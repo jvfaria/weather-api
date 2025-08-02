@@ -4,7 +4,6 @@ import com.github.tomakehurst.wiremock.client.WireMock;
 import org.springframework.http.HttpStatus;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
@@ -17,11 +16,10 @@ public class WiremockUtils {
 
     public static final String GEOCODE_EXTENAL_FAKE_API = "/v1/geocode/search";
     public static final String FORECAST_EXTENAL_FAKE_API = "/v1/forecast";
-    public static final String WEATHER_FAKE_API = "v1//api/weather";
+    public static final String WEATHER_FAKE_API = "/v1/api/weather";
 
     public static void geocodeFakeApiStubSuccess() {
         stubFor(WireMock.get(urlPathEqualTo(GEOCODE_EXTENAL_FAKE_API))
-                .withQueryParam("postalcode", equalTo(FAKE_ZIP_CODE))
                 .willReturn(aResponse()
                         .withStatus(HttpStatus.OK.value())
                         .withHeader("Content-Type", "application/json")
@@ -44,32 +42,23 @@ public class WiremockUtils {
 
     public static void geocodeFakeApiStubFail() {
         stubFor(WireMock.get(urlPathEqualTo(GEOCODE_EXTENAL_FAKE_API))
-                .withQueryParam("postalcode", equalTo(FAKE_ZIP_CODE))
                 .willReturn(aResponse().withStatus(502)));
     }
 
     public static void geocodeFakeApiStubInvalidResponse() {
         stubFor(WireMock.get(urlPathMatching("/v1/forecast"))
-                .withQueryParam("latitude", equalTo("37.7749"))
-                .withQueryParam("longitude", equalTo("-122.4194"))
-                .withQueryParam("start_date", equalTo("2025-06-20"))
-                .withQueryParam("end_date", equalTo("2025-06-21"))
                 .willReturn(aResponse().withStatus(502)));
     }
 
     public static void forecastFakeApiStubSuccess() {
         stubFor(WireMock.get(urlPathEqualTo(FORECAST_EXTENAL_FAKE_API))
-                .withQueryParam("latitude", equalTo("37.7749"))
-                .withQueryParam("longitude", equalTo("-122.4194"))
-                .withQueryParam("start_date", equalTo("2025-06-20"))
-                .withQueryParam("end_date", equalTo("2025-06-21"))
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "application/json")
                         .withBody("""
                                 {
-                                    "timezone": "America/Sao_Paulo",
-                                    "timezone_abbreviation": "GMT-3",
+                                    "timezone": "America/Los_Angeles",
+                                    "timezone_abbreviation": "GMT-7",
                                     "hourly_units": {
                                         "time": "iso8601",
                                         "temperature_2m": "celsius"

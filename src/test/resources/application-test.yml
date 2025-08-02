@@ -1,9 +1,13 @@
+project:
+  version: v1
+
 spring:
   cache:
     caffeine:
       spec: maximumSize=10,expireAfterWrite=1m
 logging:
   level:
+    org.springframework.core.env: DEBUG
     root: WARN
 weatherapi:
   i18n:
@@ -11,10 +15,10 @@ weatherapi:
   provider:
     geocoding:
       nominatim:
-        baseurl: "http://localhost:${wiremock.server.port}/v1/geocode/search?postalcode=%s&format=json&limit=1"
+        baseurl: "http://localhost:${wiremock.server.port}/v1/geocode/search"
     forecast:
       meteo:
-        baseurl: "http://localhost:${wiremock.server.port}/v1/forecast?latitude=%s&longitude=%s&start_date=%s&end_date=%s&hourly=temperature_2m"
+        baseurl: "http://localhost:${wiremock.server.port}/v1/forecast"
 
 resilience4j:
   retry:
