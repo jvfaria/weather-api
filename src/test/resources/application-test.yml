@@ -1,0 +1,26 @@
+spring:
+  cache:
+    caffeine:
+      spec: maximumSize=10,expireAfterWrite=1m
+logging:
+  level:
+    root: WARN
+weatherapi:
+  i18n:
+    enabled: false
+  provider:
+    geocoding:
+      nominatim:
+        baseurl: "http://localhost:${wiremock.server.port}/v1/geocode/search?postalcode=%s&format=json&limit=1"
+    forecast:
+      meteo:
+        baseurl: "http://localhost:${wiremock.server.port}/v1/forecast?latitude=%s&longitude=%s&start_date=%s&end_date=%s&hourly=temperature_2m"
+
+resilience4j:
+  retry:
+    instances:
+      forecastRetry:
+        max-attempts: 3
+        wait-duration: 10ms
+        retry-exceptions:
+          - java.lang.RuntimeException
