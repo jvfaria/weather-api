@@ -11,7 +11,6 @@ import com.weatherapi.domain.exception.validation.FieldValidationError;
 import com.weatherapi.domain.exception.validation.ValidationErrorDetails;
 import com.weatherapi.domain.model.WeatherResponse;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -40,6 +39,9 @@ class WeatherFlowIT {
     private static HttpHeaders headers;
     private static ObjectMapper objectMapper;
 
+    public static final String WEATHER_API = "/v1/api/weather";
+    private String patternURL = "http://localhost:%s".concat(WEATHER_API);
+
     @BeforeAll
     static void setup() {
         objectMapper = new ObjectMapper();
@@ -47,7 +49,6 @@ class WeatherFlowIT {
 
         headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-
     }
 
     @Test
@@ -57,7 +58,7 @@ class WeatherFlowIT {
 
         WeatherApiRequestDTO requestDTO = buildWeatherApiRequestDTO();
 
-        String patternURL = "http://localhost:" + port + WiremockUtils.WEATHER_FAKE_API;
+        patternURL = String.format(patternURL, port);
 
         String url = UriComponentsBuilder.fromUriString(patternURL)
                 .queryParam("zipcode", requestDTO.getZipcode())
@@ -80,16 +81,14 @@ class WeatherFlowIT {
         assertThat(body.getTimezone()).isEqualTo("America/Los_Angeles");
     }
 
-    // TODO Just a model, transfer this test to unit test cases
     @Test
-    @Disabled("test should be moved")
     void shouldThrowMethodArgumentNotValidExceptionWhenMalformedDate() throws JsonProcessingException {
         WeatherApiRequestDTO requestDTO = buildWeatherApiRequestDTO();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         requestDTO.setStartDate(LocalDate.now().format(formatter));
         requestDTO.setEndDate(LocalDate.now().plusDays(1).format(formatter));
 
-        String patternURL = "http://localhost:" + port + WiremockUtils.WEATHER_FAKE_API;
+        patternURL = String.format(patternURL, port);
 
         String url = UriComponentsBuilder.fromUriString(patternURL)
                 .queryParam("zipcode", requestDTO.getZipcode())

@@ -3,8 +3,10 @@ project:
 
 spring:
   cache:
+    type: caffeine
+    cache-names: forecastCache
     caffeine:
-      spec: maximumSize=10,expireAfterWrite=1m
+      spec: maximumSize=1000,expireAfterWrite=15m
 logging:
   level:
     org.springframework.core.env: DEBUG

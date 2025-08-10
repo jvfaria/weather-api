@@ -2,18 +2,16 @@ package com.weatherapi.common;
 
 import com.weatherapi.domain.exception.MessageResolver;
 import org.junit.jupiter.api.BeforeAll;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.context.MessageSource;
 
 import java.util.Locale;
 
 public abstract class AbstractBaseTestUnit {
-    @Mock
-    public static MessageSource mockMessageSource;
-
     @BeforeAll
     static void initMessageSource() {
+        MessageSource mockMessageSource = Mockito.mock(MessageSource.class);
+
         Mockito.when(mockMessageSource.getMessage(Mockito.anyString(), Mockito.any(), Mockito.any(Locale.class)))
                 .thenAnswer(invocation -> {
                     String code = invocation.getArgument(0);

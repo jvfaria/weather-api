@@ -16,7 +16,6 @@ public class WiremockUtils {
 
     public static final String GEOCODE_EXTENAL_FAKE_API = "/v1/geocode/search";
     public static final String FORECAST_EXTENAL_FAKE_API = "/v1/forecast";
-    public static final String WEATHER_FAKE_API = "/v1/api/weather";
 
     public static void geocodeFakeApiStubSuccess() {
         stubFor(WireMock.get(urlPathEqualTo(GEOCODE_EXTENAL_FAKE_API))
