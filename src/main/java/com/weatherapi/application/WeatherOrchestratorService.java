@@ -36,6 +36,11 @@ public class WeatherOrchestratorService {
         return mapper.toWeatherResponse(location, forecastResponse);
     }
 
+    private GeocodeResponse fetchGeocodeResponse(WeatherApiRequestDTO requestDTO, GeocodeProvider geocodeProvider) {
+        GeocodeResponse geocodeResponse = geocodeProvider.getLocation(requestDTO.getZipcode());
+        log.info("Geocode response for ZIP={} served from {}.", requestDTO.getZipcode(), "PROVIDER");
+        return geocodeResponse;
+    }
 
     private ForecastResponse fetchForecastResponse(WeatherApiRequestDTO requestDTO, ForecastProvider forecastProvider, GeocodeResponse location) {
         String lat = location.getLat();
@@ -44,12 +49,6 @@ public class WeatherOrchestratorService {
         ForecastResponse forecastResponse = forecastProvider.getForecastFromLocation(requestDTO, lat, lon);
         log.info("Forecast response for location= lat:{} / lon:{} served from {}.", lat, lon, "PROVIDER");
         return forecastResponse;
-    }
-
-    private GeocodeResponse fetchGeocodeResponse(WeatherApiRequestDTO requestDTO, GeocodeProvider geocodeProvider) {
-        GeocodeResponse geocodeResponse = geocodeProvider.getLocation(requestDTO.getZipcode());
-        log.info("Geocode response for ZIP={} served from {}.", requestDTO.getZipcode(), "PROVIDER");
-        return geocodeResponse;
     }
 
 }
