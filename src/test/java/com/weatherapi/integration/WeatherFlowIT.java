@@ -6,7 +6,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.weatherapi.common.IntegrationTest;
 import com.weatherapi.common.WiremockUtils;
 import com.weatherapi.domain.dto.request.WeatherApiRequestDTO;
-import com.weatherapi.domain.enums.TemperatureUnitScaleEnum;
 import com.weatherapi.domain.exception.validation.FieldValidationError;
 import com.weatherapi.domain.exception.validation.ValidationErrorDetails;
 import com.weatherapi.domain.model.WeatherResponse;
@@ -25,6 +24,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import static com.weatherapi.common.TestDataFactory.buildWeatherApiRequestDTO;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @IntegrationTest
@@ -106,17 +106,4 @@ class WeatherFlowIT {
                 .extracting(FieldValidationError::getField)
                 .containsExactlyInAnyOrder("startDate", "endDate");
     }
-
-    private WeatherApiRequestDTO buildWeatherApiRequestDTO() {
-        LocalDate startDate = LocalDate.now();
-        LocalDate endDate = LocalDate.now().plusDays(1);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        return WeatherApiRequestDTO.builder()
-                .zipcode(WiremockUtils.FAKE_ZIP_CODE)
-                .unit(TemperatureUnitScaleEnum.CELSIUS.getName())
-                .startDate(formatter.format(startDate))
-                .endDate(formatter.format(endDate)).build();
-    }
-
 }

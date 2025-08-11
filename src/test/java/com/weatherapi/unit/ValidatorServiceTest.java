@@ -30,7 +30,6 @@ class ValidatorServiceTest extends AbstractBaseTestUnit {
         assertDoesNotThrow(() -> validator.validateBusinessRules(request));
     }
 
-
     @Test
     @DisplayName("Should throw error when start date is invalid")
     void shouldThrowExceptionWhenStartDateIsInvalid() {

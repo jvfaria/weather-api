@@ -63,6 +63,7 @@ class ForecastApiExecutorIT {
     @DisplayName("Should set cache on response DTO when execute forecast external call")
     void shouldSetCacheOnForestResponseWhenExecutingSupplier() {
         WiremockUtils.forecastFakeApiStubSuccess();
+        cacheService.clearCache(FORECAST_CACHE_NAME);
         ForecastResponse forecastResponse = forecastApiExecutor.executeWithCache(FORECAST_CACHE_NAME, FORECAST_CACHE_KEY, ForecastResponse.class, this::doCall);
 
         assertThat(forecastResponse).isNotNull();
@@ -73,6 +74,8 @@ class ForecastApiExecutorIT {
     @Test
     void shouldChangeCacheOnForestResponseWhenSameRequest() {
         WiremockUtils.forecastFakeApiStubSuccess();
+        cacheService.clearCache(FORECAST_CACHE_NAME);
+
         ForecastResponse firstCall = forecastApiExecutor.executeWithCache(FORECAST_CACHE_NAME, FORECAST_CACHE_KEY, ForecastResponse.class, this::doCall);
 
         assertThat(firstCall).isNotNull();

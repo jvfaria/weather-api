@@ -50,7 +50,7 @@ class GeocodeApiExecutorIT {
 
     @Test
     @DisplayName("Should set cache on response DTO when execute external geocode call")
-    void shouldSetCacheOnForestResponseWhenExecutingSupplier() {
+    void shouldSetCacheOnGeocodeResponseWhenExecutingSupplier() {
         WiremockUtils.geocodeFakeApiStubSuccess();
         GeocodeResponse geocodeResponse = geocodeApiExecutor.execute(this::doCall);
 
@@ -62,12 +62,12 @@ class GeocodeApiExecutorIT {
 
     private GeocodeResponse doCall() {
         GeocodeNominatimResponseDTO[] response = restTemplate
-                .getForObject(buildForecastUrl(), GeocodeNominatimResponseDTO[].class);
+                .getForObject(buildGeocodeUrl(), GeocodeNominatimResponseDTO[].class);
 
         return mapper.toGeocodeResponse(response[0]);
     }
 
-    private String buildForecastUrl() {
+    private String buildGeocodeUrl() {
         return UriComponentsBuilder.fromUriString(geocodeBaseUrl)
                 .queryParam("postalcode", "94014")
                 .queryParam("format", "json")
