@@ -24,7 +24,7 @@ class CacheServiceTest {
     void returnsCacheAndSetsFlag() {
         ForecastApiExecutor executor = new ForecastApiExecutor(cacheService);
         ForecastResponse cachedForecastResponse = new ForecastResponse();
-        when(cacheService.get("forecast", "forecast-cache-key", ForecastResponse.class)).thenReturn(cachedForecastResponse);
+        when(cacheService.get("forecasts", "forecast-cache-key", ForecastResponse.class)).thenReturn(cachedForecastResponse);
 
 
         ForecastResponse forecastResponse = executor.executeWithCache("forecast", "forecast-cache-key", ForecastResponse.class, () -> {
