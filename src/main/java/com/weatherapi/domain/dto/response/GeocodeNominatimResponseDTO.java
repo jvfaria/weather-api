@@ -2,6 +2,7 @@ package com.weatherapi.domain.dto.response;
 
 import com.weatherapi.domain.model.Address;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@Builder
 public class GeocodeNominatimResponseDTO {
     @Schema(description = "Latitude of the geocoded location.", example = "-19.9279")
     private String lat;

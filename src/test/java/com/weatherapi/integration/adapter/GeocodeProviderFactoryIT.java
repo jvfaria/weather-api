@@ -15,7 +15,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class GeocodeProviderFactoryTest {
+class GeocodeProviderFactoryIT {
     public static final String NON_EXISTENT_PROVIDER = "NON_EXISTENT_PROVIDER";
     public static final String OTHER_PROVIDER = "OTHER_PROVIDER";
 

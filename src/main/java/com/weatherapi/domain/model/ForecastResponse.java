@@ -16,12 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 @Schema(description = "Forecast response with summary and detailed hourly forecast for the location.")
 public class ForecastResponse {
-    @Schema(description = "Latitude of the forecast location.", example = "-19.9279")
-    private double latitude;
-
-    @Schema(description = "Longitude of the forecast location.", example = "-44.1271")
-    private double longitude;
-
     @Schema(description = "Timezone of the city forecast.", example = "America/Sao_paulo")
     private String timezone;
 

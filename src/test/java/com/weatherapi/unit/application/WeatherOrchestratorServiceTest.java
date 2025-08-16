@@ -164,7 +164,7 @@ class WeatherOrchestratorServiceTest {
         // Arrange ->
         RealProvidersArrange arrange = arrangeRealProviderFactories();
         GeocodeResponse geocodeResponse = buildGeocodeResponse();
-        ForecastResponse forecastResponse = buildForecastResponse(geocodeResponse, false, 2);
+        ForecastResponse forecastResponse = buildForecastResponse(false, 2);
 
         when(arrange.geocodeProvider.getLocation(any())).thenReturn(geocodeResponse);
         when(arrange.forecastProvider.getForecastFromLocation(any(), any(), any())).thenReturn(forecastResponse);
@@ -207,7 +207,7 @@ class WeatherOrchestratorServiceTest {
 
     private OrchestratorArrange mockArrangeOrchestratorProviders() {
         GeocodeResponse geocodeResponse = buildGeocodeResponse();
-        ForecastResponse forecastResponse = buildForecastResponse(geocodeResponse, false, 2);
+        ForecastResponse forecastResponse = buildForecastResponse(false, 2);
         WeatherApiRequestDTO weatherApiRequestDTO = buildWeatherApiRequestDTO();
         WeatherResponse expected = new WeatherResponse();
 
