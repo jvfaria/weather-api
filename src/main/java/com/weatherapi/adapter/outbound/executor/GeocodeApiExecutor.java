@@ -17,7 +17,6 @@ public class GeocodeApiExecutor {
     public <T> T execute(Supplier<T> supplier) {
         log.info("[{}] Invoking external API call...", getClass().getSimpleName());
         return supplier.get();
-
     }
 
     private <T> T fallback(Supplier<T> supplier, Throwable t) {

@@ -20,15 +20,20 @@ public class ForecastApiExecutor {
         log.info("[{}] Invoking external API call...", getClass().getSimpleName());
 
         T cached = cacheService.get(cacheName, cacheKey, clazz);
+
         if (cached != null) {
             setIsCachedIfPossible(cached, true);
             log.info("[{}] HIT CACHE - {}:{}", getClass().getSimpleName(), cacheName, cacheKey);
             return cached;
         }
+
         T result = supplier.get();
+
         cacheService.put(cacheName, cacheKey, result);
         setIsCachedIfPossible(result, false);
+
         log.info("[{}] MISS CACHE - {}:{}", getClass().getSimpleName(), cacheName, cacheKey);
+
         return result;
     }
 

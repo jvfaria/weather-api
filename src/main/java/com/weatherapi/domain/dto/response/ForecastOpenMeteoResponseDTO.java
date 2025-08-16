@@ -2,6 +2,7 @@ package com.weatherapi.domain.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,7 @@ import java.util.List;
  */
 @Getter
 @Setter
+@Builder
 public class ForecastOpenMeteoResponseDTO {
     @Schema(description = "Timezone of the forecast data.", example = "America/Sao_Paulo")
     private String timezone;
@@ -42,7 +44,7 @@ public class ForecastOpenMeteoResponseDTO {
     @Getter
     @Setter
     public static class Hourly {
-        @Schema(description = "List of times (ISO 8601 format) for each forecast entry.")
+        @Schema(description = "List of times (ISO 8601 format) for each forecast entry.", example = "2025-06-16T13:00")
         private List<String> time;
 
         @JsonProperty("temperature_2m")

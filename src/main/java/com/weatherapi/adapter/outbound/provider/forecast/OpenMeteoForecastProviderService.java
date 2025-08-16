@@ -45,8 +45,7 @@ public class OpenMeteoForecastProviderService extends AbstractForecastProvider {
         ForecastRequestDTO request = buildForecastRequest(apiRequestDTO, lat, lon);
 
         try {
-            return executor
-                    .executeWithCache(CACHE_NAME, buildCacheKey(request), ForecastResponse.class, () -> doCall(request));
+            return executor.executeWithCache(CACHE_NAME, buildCacheKey(request), ForecastResponse.class, () -> doCall(request));
         } catch (HttpServerErrorException ex) {
             log.error("External API (forecast provider) returned HTTP error: {}", ex.getStatusCode());
             throw new BadGatewayException("HTTP error occurred when calling the external forecast provider.", ex);

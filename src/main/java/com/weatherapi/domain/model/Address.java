@@ -22,7 +22,7 @@ public class Address {
     private String state;
 
     @Schema(description = "Postcode.", example = "SW1A 2DU")
-    private String postcode;
+    private String postalcode;
 
     @Schema(description = "Country name.", example = "United Kingdom")
     private String country;

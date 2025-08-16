@@ -5,6 +5,7 @@ import com.weatherapi.domain.exception.validation.FieldValidationError;
 import com.weatherapi.domain.exception.validation.ValidationErrorDetails;
 import com.weatherapi.domain.exception.validation.WeatherGetValidationException;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
     private static final HttpStatus BAD_REQUEST = HttpStatus.BAD_REQUEST;                 // 400
     private static final HttpStatus BAD_GATEWAY = HttpStatus.BAD_GATEWAY;                 // 502
@@ -66,6 +69,16 @@ public class GlobalExceptionHandler {
                 .message(message)
                 .fields(fieldErrors)
                 .build();
+
+        log.warn(
+                "Validation failed in [{}] - URI: {}, Status: {}, Fields: {}",
+                exception.getParameter().getExecutable().getDeclaringClass().getSimpleName(),
+                request.getRequestURI(),
+                BAD_REQUEST.value(),
+                fieldErrors.stream()
+                        .map(err -> err.getField() + ": " + err.getMessage())
+                        .collect(Collectors.joining(", "))
+        );
 
         return ResponseEntity.badRequest().body(errorDetails);
     }

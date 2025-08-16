@@ -4,6 +4,8 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class CacheService {
     private final CacheManager cacheManager;
@@ -24,4 +26,9 @@ public class CacheService {
             cache.put(key, value);
         }
     }
+
+    public void clearCache(String cacheName) {
+        Optional.ofNullable(cacheManager.getCache(cacheName)).ifPresent(Cache::clear);
+    }
+
 }

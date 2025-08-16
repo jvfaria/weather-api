@@ -38,7 +38,7 @@ weatherapi:
       nominatim:
         baseurl: "https://nominatim.openstreetmap.org/search"
     forecast:
-      defaultProvider: meteo
+      defaultProvider: open_meteo
       meteo:
         baseurl: "https://api.open-meteo.com/v1/forecast"
 
