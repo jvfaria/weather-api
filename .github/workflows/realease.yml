@@ -1,0 +1,56 @@
+name: Release deploy (Railway)
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+      RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+      RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Build & test (Maven)
+        run: mvn -B clean verify
+
+      # publica o JAR como artifact da release
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: weather-api-jar
+          path: target/*.jar
+
+      - name: Setup Node (Railway CLI)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Railway CLI
+        run: npm i -g @railway/cli
+
+      - name: Link Railway project
+        run: railway link --project $RAILWAY_PROJECT_ID
+
+      # grava a versão no Railway (APP_VERSION=1.1.0)
+      - name: Set APP_VERSION var in Railway
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          railway variables set APP_VERSION="$VERSION" --service $RAILWAY_SERVICE_ID
+
+      # Deploy a partir do código fonte (usa Dockerfile do repo)
+      - name: Deploy to Railway
+        run: railway up --service $RAILWAY_SERVICE_ID --ci
