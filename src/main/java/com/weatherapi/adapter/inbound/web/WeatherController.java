@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("${project.version}/api/weather")
+@RequestMapping("${project.version}/weather")
 @Tag(
         name = "Weather",
         description = "Endpoints for retrieving weather information by ZIP code."
