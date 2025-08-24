@@ -30,7 +30,7 @@ public class ProviderProperties {
         @Data
         public static class Forecast {
             private String defaultProvider;
-            private OpenMeteo meteo;
+            private OpenMeteo meteo = new OpenMeteo();
             // Here could be added future providers
 
             @Data

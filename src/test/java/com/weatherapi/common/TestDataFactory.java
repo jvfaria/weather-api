@@ -1,9 +1,13 @@
 package com.weatherapi.common;
 
 import com.github.javafaker.Faker;
+import com.weatherapi.config.ProviderProperties;
 import com.weatherapi.domain.dto.request.WeatherApiRequestDTO;
+import com.weatherapi.domain.dto.request.thirdparty.ForecastRequestDTO;
 import com.weatherapi.domain.dto.response.ForecastOpenMeteoResponseDTO;
 import com.weatherapi.domain.dto.response.GeocodeNominatimResponseDTO;
+import com.weatherapi.domain.enums.ForecastProviderEnum;
+import com.weatherapi.domain.enums.GeocodeProviderEnum;
 import com.weatherapi.domain.enums.TemperatureUnitScaleEnum;
 import com.weatherapi.domain.model.Address;
 import com.weatherapi.domain.model.ForecastResponse;
@@ -19,12 +23,34 @@ import java.util.stream.IntStream;
 
 public class TestDataFactory {
     private static final Faker faker = new Faker();
-    private static final DateTimeFormatter ISO_MINUTES = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+    public static final String GEOCODE_PROVIDER_NAME = GeocodeProviderEnum.NOMINATIM.getName();
+    public static final String FORECAST_PROVIDER_NAME = ForecastProviderEnum.OPEN_METEO.getName();
+    public static final DateTimeFormatter ISO_MINUTES_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+    public static final DateTimeFormatter ISO_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     public static final String AMERICA_SAO_PAULO_TIMEZONE = "America/Sao_paulo";
     public static final String CELSIUS_UNIT = "°C";
     public static final String OFFSET_GMT3 = "GMT-3";
     public static final String LAT = "37.7749";
     public static final String LON = "-122.4194";
+
+
+    public static ProviderProperties buildProviderProperties() {
+        var providerProperties = new ProviderProperties();
+
+        ProviderProperties.Provider.Geocoding geocodingProvider = new ProviderProperties.Provider.Geocoding();
+        geocodingProvider.setDefaultProvider(GEOCODE_PROVIDER_NAME);
+
+        ProviderProperties.Provider.Forecast forecastProvider = new ProviderProperties.Provider.Forecast();
+        forecastProvider.setDefaultProvider(FORECAST_PROVIDER_NAME);
+
+        ProviderProperties.Provider provider = new ProviderProperties.Provider();
+        provider.setGeocoding(geocodingProvider);
+        provider.setForecast(forecastProvider);
+
+        providerProperties.setProvider(provider);
+
+        return providerProperties;
+    }
 
     public static WeatherApiRequestDTO buildWeatherApiRequestDTO() {
         LocalDate startDate = LocalDate.now();
@@ -82,6 +108,17 @@ public class TestDataFactory {
         return GeocodeNominatimResponseDTO.builder().lat(LAT).lon(LON).address(address).build();
     }
 
+    public static ForecastRequestDTO buildForecastRequestDTO() {
+        return ForecastRequestDTO.builder()
+                .zipcode("95014")
+                .latitude("-19.9")
+                .longitude("-43.9")
+                .startDate("2025-08-01")
+                .endDate("2025-08-03")
+                .unit(TemperatureUnitScaleEnum.CELSIUS.getName())
+                .build();
+    }
+
     private static List<HourlyForecast> buildRandomHourlyForecastList(Integer length) {
         if (length <= 0) {
             return List.of();
@@ -111,13 +148,13 @@ public class TestDataFactory {
 
     private static HourlyForecast buildRandomHourlyForecastObject() {
         return HourlyForecast.builder()
-                .time(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES).format(ISO_MINUTES))
+                .time(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES).format(ISO_MINUTES_FORMATTER))
                 .temperature(faker.number().randomDouble(1, 1, 30)).build();
     }
 
     private static HourlyForecast buildHourlyForecastObject(LocalDateTime time, Double temperature) {
         return HourlyForecast.builder()
-                .time(time.truncatedTo(ChronoUnit.MINUTES).format(ISO_MINUTES))
+                .time(time.truncatedTo(ChronoUnit.MINUTES).format(ISO_MINUTES_FORMATTER))
                 .temperature(temperature).build();
     }
 }

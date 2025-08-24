@@ -27,7 +27,7 @@ public class NominatimGeocodeProviderService extends AbstractGeocodeProvider {
     private final GeocodeApiExecutor executor;
 
     @Override
-    protected GeocodeResponse doCall(GeocodeRequestDTO request) {
+    public GeocodeResponse doCall(GeocodeRequestDTO request) {
         GeocodeNominatimResponseDTO[] response = restTemplate.getForObject(buildGeocodeUrl(request), GeocodeNominatimResponseDTO[].class);
 
         if (response == null || response.length == 0) {
@@ -70,7 +70,7 @@ public class NominatimGeocodeProviderService extends AbstractGeocodeProvider {
     }
 
     @Override
-    protected String buildCacheKey(GeocodeRequestDTO request) {
+    public String buildCacheKey(GeocodeRequestDTO request) {
         // TODO might it be necessary to cache this request? Remember to analyze this afterwards.
         return "";
     }

@@ -30,7 +30,7 @@ public class OpenMeteoForecastProviderService extends AbstractForecastProvider {
     private final ForecastApiExecutor executor;
 
     @Override
-    protected ForecastResponse doCall(ForecastRequestDTO request) {
+    public ForecastResponse doCall(ForecastRequestDTO request) {
         ForecastOpenMeteoResponseDTO response = restTemplate.getForObject(buildForecastUrl(request), ForecastOpenMeteoResponseDTO.class);
 
         if (Objects.isNull(response)) {
@@ -81,7 +81,7 @@ public class OpenMeteoForecastProviderService extends AbstractForecastProvider {
     }
 
     @Override
-    protected String buildCacheKey(ForecastRequestDTO request) {
+    public String buildCacheKey(ForecastRequestDTO request) {
         return String.format("%s-%s-%s-%s", request.getZipcode(), request.getStartDate(), request.getEndDate(), request.getUnit());
     }
 
