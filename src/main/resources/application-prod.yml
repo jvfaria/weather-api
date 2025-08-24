@@ -1,0 +1,16 @@
+logging:
+  level:
+    root: INFO
+    io.github.resilience4j: INFO
+    com.weather.weather_api: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+springdoc:
+  swagger-ui:
+#    enabled: false
+    path: /swagger-ui.html
