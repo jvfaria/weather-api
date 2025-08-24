@@ -25,8 +25,11 @@ import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.Set;
 
+import static com.weatherapi.common.TestDataFactory.FORECAST_PROVIDER_NAME;
+import static com.weatherapi.common.TestDataFactory.GEOCODE_PROVIDER_NAME;
 import static com.weatherapi.common.TestDataFactory.buildForecastResponse;
 import static com.weatherapi.common.TestDataFactory.buildGeocodeResponse;
+import static com.weatherapi.common.TestDataFactory.buildProviderProperties;
 import static com.weatherapi.common.TestDataFactory.buildWeatherApiRequestDTO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -43,9 +46,6 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class WeatherOrchestratorServiceTest {
-    public static final String GEOCODE_PROVIDER_NAME = GeocodeProviderEnum.NOMINATIM.getName();
-    public static final String FORECAST_PROVIDER_NAME = ForecastProviderEnum.OPEN_METEO.getName();
-
     @Mock
     GeocodeProviderFactory geocodeProviderFactoryMock;
 
@@ -66,19 +66,7 @@ class WeatherOrchestratorServiceTest {
 
     @BeforeEach
     void setup() {
-        providerProperties = new ProviderProperties();
-
-        ProviderProperties.Provider.Geocoding geocodingProvider = new ProviderProperties.Provider.Geocoding();
-        geocodingProvider.setDefaultProvider(GEOCODE_PROVIDER_NAME);
-
-        ProviderProperties.Provider.Forecast forecastProvider = new ProviderProperties.Provider.Forecast();
-        forecastProvider.setDefaultProvider(FORECAST_PROVIDER_NAME);
-
-        ProviderProperties.Provider provider = new ProviderProperties.Provider();
-        provider.setGeocoding(geocodingProvider);
-        provider.setForecast(forecastProvider);
-
-        providerProperties.setProvider(provider);
+        providerProperties = buildProviderProperties();
         orchestratorService = new WeatherOrchestratorService(providerProperties, geocodeProviderFactoryMock, forecastProviderFactoryMock, mapper);
     }
 

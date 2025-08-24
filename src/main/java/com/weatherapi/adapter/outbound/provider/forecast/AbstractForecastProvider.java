@@ -7,7 +7,7 @@ import com.weatherapi.domain.port.ForecastProvider;
 public abstract class AbstractForecastProvider implements ForecastProvider {
     public static final String CACHE_NAME = "forecastCache";
 
-    protected abstract String buildCacheKey(ForecastRequestDTO request);
+    public abstract String buildCacheKey(ForecastRequestDTO request);
 
-    protected abstract ForecastResponse doCall(ForecastRequestDTO request);
+    public abstract ForecastResponse doCall(ForecastRequestDTO request);
 }
