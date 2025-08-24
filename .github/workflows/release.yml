@@ -2,17 +2,12 @@ name: Release deploy (Railway)
 
 on:
   push:
-    tags:
-      - 'v*'
+    tags: ['v*']
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
-    env:
-      RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-      RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
-      RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID }}
 
     steps:
       - name: Checkout
@@ -27,7 +22,6 @@ jobs:
       - name: Build & test (Maven)
         run: mvn -B clean verify
 
-      # publica o JAR como artifact da release
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -40,23 +34,25 @@ jobs:
           node-version: '20'
 
       - name: Install Railway CLI
-        run: npm i -g @railway/cli
+        run: npm i -g @railway/cli@latest
 
-      # autenticação Railway
-      - name: Auth Railway
+      - name: Show Railway CLI version
+        run: railway --version
+
+      - name: Set APP_VERSION in Railway
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: railway login --token "$RAILWAY_TOKEN"
-
-      - name: Link Railway project
-        run: railway link --project $RAILWAY_PROJECT_ID
-
-      # grava a versão no Railway (APP_VERSION=1.1.0)
-      - name: Set APP_VERSION var in Railway
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
-          railway variables set APP_VERSION="$VERSION" --service $RAILWAY_SERVICE_ID
+          railway variables set APP_VERSION="$VERSION" \
+            --project "${{ secrets.RAILWAY_PROJECT_ID }}" \
+            --service "${{ secrets.RAILWAY_SERVICE_ID }}"
 
-      # Deploy a partir do código fonte (usa Dockerfile do repo)
       - name: Deploy to Railway
-        run: railway up --service $RAILWAY_SERVICE_ID --ci
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          railway up \
+            --project "${{ secrets.RAILWAY_PROJECT_ID }}" \
+            --service "${{ secrets.RAILWAY_SERVICE_ID }}" \
+            --ci
