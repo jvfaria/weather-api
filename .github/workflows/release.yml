@@ -44,7 +44,7 @@ jobs:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
-          railway variables set APP_VERSION="$VERSION" \
+          railway variables APP_VERSION=$VERSION \
             --project "${{ secrets.RAILWAY_PROJECT_ID }}" \
             --service "${{ secrets.RAILWAY_SERVICE_ID }}"
 
