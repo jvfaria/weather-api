@@ -1,5 +1,6 @@
 package com.weatherapi.domain.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.weatherapi.domain.model.Address;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -19,6 +20,10 @@ public class GeocodeNominatimResponseDTO {
 
     @Schema(description = "Longitude of the geocoded location.", example = "-44.1271")
     private String lon;
+
+    @Schema(description = "Display name is the full address detail when there isn't address detail info from API.", example = "323123-123, Rua 2, Sao Paulo, Brasil")
+    @JsonProperty("display_name")
+    private String rawDisplayName;
 
     @Schema(description = "Address details as returned by Nominatim.")
     private Address address;

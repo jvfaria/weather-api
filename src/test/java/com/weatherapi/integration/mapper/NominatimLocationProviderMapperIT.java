@@ -38,7 +38,7 @@ class NominatimLocationProviderMapperIT {
         assertThat(outAddr.getTown()).isEqualTo(inAddr.getTown());
         assertThat(outAddr.getStateDistrict()).isEqualTo(inAddr.getStateDistrict());
         assertThat(outAddr.getState()).isEqualTo(inAddr.getState());
-        assertThat(outAddr.getPostalcode()).isEqualTo(inAddr.getPostalcode());
+        assertThat(outAddr.getPostcode()).isEqualTo(inAddr.getPostcode());
         assertThat(outAddr.getCountry()).isEqualTo(inAddr.getCountry());
         assertThat(outAddr.getCountryCode()).isEqualTo(inAddr.getCountryCode());
     }
