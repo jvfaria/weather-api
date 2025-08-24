@@ -11,6 +11,8 @@ spring:
       spec: maximumSize=1000,expireAfterWrite=15m
 
 project:
+  name: ${APP_NAME:weather-api}
+  env: ${APP_ENV:local}
   version: v1
 
 server:
