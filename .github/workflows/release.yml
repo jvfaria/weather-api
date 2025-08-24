@@ -39,15 +39,6 @@ jobs:
       - name: Show Railway CLI version
         run: railway --version
 
-      - name: Set APP_VERSION (ENV-based)
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
-          RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID }}
-        run: |
-          VERSION="${GITHUB_REF_NAME#v}"
-          railway env set APP_VERSION="$VERSION"
-
       - name: Deploy to Railway (ENV-based)
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
