@@ -100,7 +100,7 @@ public class TestDataFactory {
         address.setCity(faker.address().city());
         address.setCountry(faker.address().country());
         address.setState(faker.address().state());
-        address.setPostalcode(faker.address().zipCode());
+        address.setPostcode(faker.address().zipCode());
         address.setStateDistrict(faker.address().stateAbbr());
         address.setTown(faker.address().city());
         address.setCountryCode(faker.address().countryCode());

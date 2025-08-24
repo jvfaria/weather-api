@@ -48,7 +48,7 @@ public class WeatherResponseCustomMapper {
                 geo.getAddress().getCity() == null ? geo.getAddress().getTown() : geo.getAddress().getCity(),
                 geo.getAddress().getStateDistrict(),
                 geo.getAddress().getState(),
-                geo.getAddress().getPostalcode(),
+                geo.getAddress().getPostcode(),
                 geo.getAddress().getCountry(),
                 geo.getAddress().getCountryCode()
         );

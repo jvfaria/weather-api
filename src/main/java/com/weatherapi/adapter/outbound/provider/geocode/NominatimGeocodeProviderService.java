@@ -65,7 +65,7 @@ public class NominatimGeocodeProviderService extends AbstractGeocodeProvider {
         return UriComponentsBuilder.fromUriString(baseUrl)
                 .queryParam("postalcode", requestDTO.getZipcode())
                 .queryParam("format", "json")
-                .queryParam("addressDetails", 1)
+                .queryParam("addressdetails", 1)
                 .queryParam("limit", 1).build().toUriString();
     }
 

@@ -1,0 +1,10 @@
+services:
+  weather-api:
+    build: .
+    container_name: weather-api
+    ports:
+      - "8083:8083"
+    volumes:
+      - ./data:/app/data
+    environment:
+      SPRING_PROFILES_ACTIVE: default

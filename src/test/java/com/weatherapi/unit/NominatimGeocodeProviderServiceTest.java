@@ -25,7 +25,6 @@ import static org.mockito.ArgumentMatchers.any;
 @ExtendWith(MockitoExtension.class)
 class NominatimGeocodeProviderServiceTest {
     private NominatimGeocodeProviderService serviceSpy;
-    private ProviderProperties providerProperties;
     private final String baseURL = "http://localhost:0".concat(GEOCODE_EXTENAL_FAKE_API);
 
     @Mock
@@ -39,7 +38,7 @@ class NominatimGeocodeProviderServiceTest {
 
     @BeforeEach
     void setup() {
-        providerProperties = buildProviderProperties();
+        ProviderProperties providerProperties = buildProviderProperties();
         providerProperties.getProvider().getGeocoding().getNominatim().setBaseUrl(baseURL);
         var realService = new NominatimGeocodeProviderService(restTemplateMock, mapperMock, providerProperties, executorMock);
 
@@ -58,7 +57,7 @@ class NominatimGeocodeProviderServiceTest {
                 .startsWith(baseURL)
                 .contains("postalcode=95014")
                 .contains("format=json")
-                .contains("addressDetails=1")
+                .contains("addressdetails=1")
                 .contains("limit=1");
     }
 

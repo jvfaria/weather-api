@@ -150,11 +150,11 @@ These strategies together provide a robust, modular, and testable architecture, 
 
 SpringDoc OpenAPI auto-docs every endpoint:
 
-- [Swagger UI](http://localhost:8086/swagger-ui.html) — Interactive docs & try-it-out.
-- [OpenAPI JSON](http://localhost:8086/v3/api-docs) — For import into Postman/etc.
+- [Swagger UI](http://localhost:8083/api/swagger-ui.html) — Interactive docs & try-it-out.
+- [OpenAPI JSON](http://localhost:8083/api/v3/api-docs) — For import into Postman/etc.
 
 To use with Postman:
-- Go to Import, paste the content of [OpenAPI JSON link](http://localhost:8086/v3/api-docs).
+- Go to Import, paste the content of [OpenAPI JSON link](http://localhost:8083/api/v3/api-docs).
 - Postman will load all endpoints with schemas/examples automatically.
 
 ---
@@ -242,8 +242,8 @@ Application data is persisted via mounted volumes (data/ → /app/data), keeping
 
 
 4. **Access the application**
-- Swagger UI: [http://localhost:8086/swagger-ui.html](http://localhost:8086/swagger-ui.html)
-- API: [http://localhost:8086/api/weather](http://localhost:8086/api/weather)
+- Swagger UI: [http://localhost:8083/api/swagger-ui.html](http://localhost:8083/api/swagger-ui.html)
+- API: [http://localhost:8083/api/weather](http://localhost:8083/api/weather)
 
 5. **Notes**
 - The data/ folder is mounted as a volume inside the container (/app/data) for local persistence.
