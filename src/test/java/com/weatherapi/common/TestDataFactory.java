@@ -23,6 +23,7 @@ import java.util.stream.IntStream;
 
 public class TestDataFactory {
     private static final Faker faker = new Faker();
+    public static final String BASE_APP_URL = "http://localhost:%s/api/";
     public static final String GEOCODE_PROVIDER_NAME = GeocodeProviderEnum.NOMINATIM.getName();
     public static final String FORECAST_PROVIDER_NAME = ForecastProviderEnum.OPEN_METEO.getName();
     public static final DateTimeFormatter ISO_MINUTES_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");

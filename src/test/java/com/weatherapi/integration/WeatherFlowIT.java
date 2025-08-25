@@ -24,6 +24,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import static com.weatherapi.common.TestDataFactory.BASE_APP_URL;
 import static com.weatherapi.common.TestDataFactory.buildWeatherApiRequestDTO;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -39,8 +40,8 @@ class WeatherFlowIT {
     private static HttpHeaders headers;
     private static ObjectMapper objectMapper;
 
-    public static final String WEATHER_API = "/v1/api/weather";
-    private String patternURL = "http://localhost:%s".concat(WEATHER_API);
+    public static final String WEATHER_API = "v1/weather";
+    private String patternURL = BASE_APP_URL.concat(WEATHER_API);
 
     @BeforeAll
     static void setup() {
