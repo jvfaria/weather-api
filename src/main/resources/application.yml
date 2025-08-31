@@ -22,13 +22,22 @@ server:
 
 springdoc:
   swagger-ui:
+    enabled: true
     path: /swagger-ui.html
 
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics
+        include: health,info,metrics,prometheus
+      base-path: /api/actuator
+  endpoint:
+    prometheus:
+      enabled: true
+
+metrics:
+  auth:
+    enabled: true
 
 weatherapi:
   i18n:

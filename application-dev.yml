@@ -1,5 +1,0 @@
-logging:
-  level:
-    root: DEBUG
-    io.github.resilience4j: DEBUG
-    com.weather.weather_api: DEBUG

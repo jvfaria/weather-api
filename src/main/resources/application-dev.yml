@@ -1,0 +1,23 @@
+spring:
+  profiles:
+    group:
+      dev: "dev"
+
+management:
+  server:
+    port: 9090
+    address: 0.0.0.0
+
+metrics:
+  auth:
+    enabled: true
+
+springdoc:
+  swagger-ui:
+    enabled: true
+
+logging:
+  level:
+    root: DEBUG
+    io.github.resilience4j: DEBUG
+    com.weather.weather_api: DEBUG

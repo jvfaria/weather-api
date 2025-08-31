@@ -1,0 +1,46 @@
+name: RC (release/* → staging)
+
+on:
+  push:
+    branches:
+      - 'release/*'
+
+jobs:
+  rc-staging:
+    runs-on: ubuntu-latest
+    environment: staging
+
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '21' }
+
+      - name: Build & test
+        run: mvn -B clean verify
+
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+
+      - name: Install semantic-release
+        run: npm i -g semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/exec @semantic-release/github conventional-changelog-conventionalcommits
+
+      - name: semantic-release (rc)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: semantic-release
+
+      - name: Extract version
+        id: v
+        run: echo "val=$(mvn -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive org.codehaus.mojo:exec-maven-plugin:1.6.0:exec)" >> $GITHUB_OUTPUT
+
+      - name: Install Railway CLI
+        run: npm i -g @railway/cli@latest
+
+      - name: Deploy to Railway (STAGING)
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          railway env set APP_VERSION="${{ steps.v.outputs.val }}" -s "${{ vars.RAILWAY_SERVICE_ID }}"
+          railway up -s "${{ vars.RAILWAY_SERVICE_ID }}" --ci

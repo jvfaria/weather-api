@@ -144,6 +144,79 @@ This project applies several key software architecture and design principles to 
 
 ---
 
+## 🔖 Versionamento e Git Flow
+
+Adotei o **Semantic Versioning (SemVer)** aliado a um fluxo **GitFlow adaptado**:
+
+- **develop** → branch de desenvolvimento contínuo.
+- **release/*** → branch de release candidate.
+- **main** → branch estável de produção.
+
+### Convenção SemVer:
+- **MAJOR** (x.0.0): mudanças incompatíveis (breaking changes).
+- **MINOR** (0.x.0): novas features compatíveis.
+- **PATCH** (0.0.x): correções e ajustes.
+- Pré-releases (`-dev.N`, `-rc.N`) para versões em desenvolvimento/staging.
+
+### Automatização com semantic-release
+- **Commits seguem Conventional Commits** (`feat:`, `fix:`, `chore:`, etc.).
+- semantic-release analisa histórico, decide versão, atualiza `pom.xml`, gera `CHANGELOG.md`, cria tag e GitHub Release.
+- Pré-releases geradas em develop e release/*.
+- Versão final gerada em main.
+
+---
+
+## ⚙️ CI/CD (GitHub Actions)
+
+### Workflows principais:
+
+- **develop → Railway DEV**
+    - Executa testes.
+    - semantic-release gera `x.y.z-dev.N`.
+    - Deploya no Railway (ambiente dev).
+
+- **release/* → Railway STAGING**
+    - Executa testes.
+    - semantic-release gera `x.y.z-rc.N`.
+    - Deploya no Railway (staging).
+
+- **main → Release estável**
+    - semantic-release gera `x.y.z`.
+    - Cria tag `vX.Y.Z`, changelog e release no GitHub.
+
+- **tag v* → Railway PROD**
+    - Workflow lê versão da tag.
+    - Seta `APP_VERSION` no Railway.
+    - Deploya no serviço de produção.
+
+### Proteções
+- **develop**: aceita merges de feature branches.
+- **release/**: serve como RC para homologação.
+- **main**: protegido, só aceita merges de release com PR + review.
+- **tag**: acionada somente após merge na main.
+
+---
+
+## ☁️ Railway (Deploy)
+
+- **Ambientes separados**:
+    - `weather-api-dev` (Auto Deploy da branch `develop`)
+    - `weather-api-staging` (deploy via release/* workflow)
+    - `weather-api-prod` (deploy somente via tag e pipeline)
+
+- **Configurações**:
+    - `SPRING_PROFILES_ACTIVE` setado por ambiente.
+    - `PROM_USER` / `PROM_PASS` para proteger `/actuator/prometheus`.
+    - `APP_VERSION` injetado no build pela pipeline.
+
+- **Recomendações Prod**:
+    - Desligar Swagger.
+    - Habilitar 1 instância mínima (sem autosleep).
+    - Backups de banco ativados.
+    - UptimeRobot monitorando `/actuator/health`.
+
+---
+
 These strategies together provide a robust, modular, and testable architecture, following best practices for enterprise-grade Spring Boot applications.
 
 ## 📄 Documentation

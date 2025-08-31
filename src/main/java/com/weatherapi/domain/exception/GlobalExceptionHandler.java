@@ -33,20 +33,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorDetails, BAD_REQUEST);
     }
 
-    @ExceptionHandler(ServiceUnavailableException.class)
-    public ResponseEntity<ErrorDetails> handleServiceUnavailable(ServiceUnavailableException exception, HttpServletRequest request) {
-        // 503 - Unnavailable service
-        ErrorDetails errorDetails = getErrorDetails(LocalDateTime.now(), request, exception.getMessage(), SERVICE_UNAVAILABLE);
-        return new ResponseEntity<>(errorDetails, SERVICE_UNAVAILABLE);
-    }
-
-    @ExceptionHandler(BadGatewayException.class)
-    public ResponseEntity<ErrorDetails> handleBadGateway(BadGatewayException exception, HttpServletRequest request) {
-        // 502 - External error
-        ErrorDetails errorDetails = getErrorDetails(LocalDateTime.now(), request, exception.getMessage(), BAD_GATEWAY);
-        return new ResponseEntity<>(errorDetails, BAD_GATEWAY);
-    }
-
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorDetails> handleResourceNotFound(ResourceNotFoundException exception, HttpServletRequest request) {
         // 404 - Resource not found
@@ -100,9 +86,38 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorDetails> handleRuntime(RuntimeException exception, HttpServletRequest request) {
         // 500 - Unexpected
+        String message = MessageResolver.getMessage("error.internal.server");
+
         ErrorDetails errorDetails = getErrorDetails(LocalDateTime.now(), request, exception.getMessage(), INTERNAL_SERVER_ERROR);
+
+        log.error(message, exception);
+
         return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(errorDetails);
     }
+
+    @ExceptionHandler(ServiceUnavailableException.class)
+    public ResponseEntity<ErrorDetails> handleServiceUnavailable(ServiceUnavailableException exception, HttpServletRequest request) {
+        // 503 - Unnavailable service
+        String message = MessageResolver.getMessage("error.internal.server");
+
+        ErrorDetails errorDetails = getErrorDetails(LocalDateTime.now(), request, exception.getMessage(), SERVICE_UNAVAILABLE);
+
+        log.error(message, exception);
+
+        return new ResponseEntity<>(errorDetails, SERVICE_UNAVAILABLE);
+    }
+
+    @ExceptionHandler(BadGatewayException.class)
+    public ResponseEntity<ErrorDetails> handleBadGateway(BadGatewayException exception, HttpServletRequest request) {
+        // 502 - External error
+        String message = MessageResolver.getMessage("error.internal.server");
+
+        ErrorDetails errorDetails = getErrorDetails(LocalDateTime.now(), request, exception.getMessage(), BAD_GATEWAY);
+
+        log.error(message, exception);
+        return new ResponseEntity<>(errorDetails, BAD_GATEWAY);
+    }
+
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorDetails> handleGenericException(Exception exception, HttpServletRequest request) {
@@ -115,6 +130,9 @@ public class GlobalExceptionHandler {
                 .path(request.getRequestURL().toString())
                 .message(message)
                 .build();
+
+        log.error(message, exception);
+
         return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(errorDetails);
     }
 
