@@ -1,0 +1,27 @@
+name: Deploy (tags → PROD)
+
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  deploy-prod:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+
+      - name: Install Railway CLI
+        run: npm i -g @railway/cli@latest
+
+      - name: Deploy to Railway (PROD)
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          railway env set APP_VERSION="$VERSION" -s "${{ vars.RAILWAY_SERVICE_ID }}"
+          railway up -s "${{ vars.RAILWAY_SERVICE_ID }}" --ci
