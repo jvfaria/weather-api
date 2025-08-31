@@ -1,10 +1,7 @@
-logging:
-  level:
-    root: INFO
-    io.github.resilience4j: INFO
-    com.weather.weather_api: INFO
-
 management:
+  server:
+    port: 9090
+    address: 127.0.0.1
   endpoints:
     web:
       exposure:
@@ -13,5 +10,11 @@ management:
 
 springdoc:
   swagger-ui:
-    enabled: true
-    path: /swagger-ui.html
+    enabled: false
+
+logging:
+  level:
+    root: INFO
+    io.github.resilience4j: INFO
+    com.weather.weather_api: INFO
+    org.springframework.security: WARN

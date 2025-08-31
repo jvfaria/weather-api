@@ -22,6 +22,7 @@ server:
 
 springdoc:
   swagger-ui:
+    enabled: true
     path: /swagger-ui.html
 
 management:
@@ -33,6 +34,10 @@ management:
   endpoint:
     prometheus:
       enabled: true
+
+metrics:
+  auth:
+    enabled: true
 
 weatherapi:
   i18n:

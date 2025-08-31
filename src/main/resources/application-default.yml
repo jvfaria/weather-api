@@ -1,4 +1,12 @@
 spring:
+  profiles:
+    group:
+      local: "local"
+  management:
+    server:
+      port: 8083
+      address: 127.0.0.1
+
   aop:
     proxy-target-class: true
     auto: true
@@ -13,19 +21,10 @@ spring:
 project:
   version: v1
 
-server:
-  port: 8083
-  servlet:
-    context-path: /api
-
-springdoc:
-  swagger-ui:
-    path: /swagger-ui.html
-
 weatherapi:
   i18n:
     enabled: true
-    locale: en_US
+#    locale: en_US
   provider:
     geocoding:
       defaultProvider: nominatim
@@ -45,6 +44,10 @@ resilience4j:
       forecastRetry:
         maxAttempts: 3
         waitDuration: 2s
+
+metrics:
+  auth:
+    enabled: false
 
 logging:
   level:
