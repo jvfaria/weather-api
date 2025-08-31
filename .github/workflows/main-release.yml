@@ -1,5 +1,10 @@
 name: Release (main → tag)
 
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
 on:
   push:
     branches: [ main ]
@@ -23,6 +28,11 @@ jobs:
 
       - name: Install semantic-release
         run: npm i -g semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/exec @semantic-release/github conventional-changelog-conventionalcommits
+
+      - name: Git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       # Versão estável X.Y.Z, cria tag vX.Y.Z e GitHub Release
       - name: semantic-release (main)
