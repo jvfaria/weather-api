@@ -1,10 +1,5 @@
 name: Deploy (tags → PROD)
 
-permissions:
-  contents: write
-  issues: write
-  pull-requests: write
-
 on:
   push:
     tags: ['v*']
@@ -13,6 +8,10 @@ jobs:
   deploy-prod:
     runs-on: ubuntu-latest
     environment: production
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
 
     steps:
       - uses: actions/checkout@v4
