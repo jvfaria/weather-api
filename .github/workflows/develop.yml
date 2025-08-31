@@ -57,5 +57,5 @@ jobs:
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
-          railway env set APP_VERSION="${{ steps.v.outputs.val }}" -s "${{ vars.RAILWAY_SERVICE_ID }}"
+          railway variables set APP_VERSION="${{ steps.v.outputs.val }}" -s "${{ vars.RAILWAY_SERVICE_ID }}"
           railway up -s "${{ vars.RAILWAY_SERVICE_ID }}" --ci
