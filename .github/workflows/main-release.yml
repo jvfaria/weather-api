@@ -1,10 +1,5 @@
 name: Release (main → tag)
 
-permissions:
-  contents: write
-  issues: write
-  pull-requests: write
-
 on:
   push:
     branches: [ main ]
@@ -12,7 +7,10 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }

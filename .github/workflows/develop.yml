@@ -1,10 +1,5 @@
 name: CI (develop → dev)
 
-permissions:
-  contents: write
-  issues: write
-  pull-requests: write
-
 on:
   push:
     branches: [ develop ]
@@ -13,6 +8,10 @@ jobs:
   ci-dev:
     runs-on: ubuntu-latest
     environment: dev
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
 
     steps:
       - uses: actions/checkout@v4

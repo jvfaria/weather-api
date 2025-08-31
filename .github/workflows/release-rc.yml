@@ -1,10 +1,5 @@
 name: RC (release/* → staging)
 
-permissions:
-  contents: write
-  issues: write
-  pull-requests: write
-
 on:
   push:
     branches:
@@ -14,7 +9,10 @@ jobs:
   rc-staging:
     runs-on: ubuntu-latest
     environment: staging
-
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
