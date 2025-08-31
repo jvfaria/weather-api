@@ -52,10 +52,33 @@ jobs:
       - name: Install Railway CLI
         run: npm i -g @railway/cli@latest
 
+      - name: Set APP_VERSION in Railway (via HTTP)
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ vars.RAILWAY_PROJECT_ID }}
+          RAILWAY_SERVICE_ID: ${{ vars.RAILWAY_SERVICE_ID }}
+          RAILWAY_ENVIRONMENT_ID: ${{ vars.RAILWAY_ENVIRONMENT_ID }}
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}" # ou pega do step semantic-release
+          curl -X POST "https://backboard.railway.app/graphql/v2" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $RAILWAY_TOKEN" \
+            -d "{
+              \"query\": \"mutation SetEnvVar(\$input: EnvironmentVariableUpsertInput!) { environmentVariableUpsert(input: \$input) { id key value } } \",
+              \"variables\": {
+                \"input\": {
+                  \"projectId\": \"${RAILWAY_PROJECT_ID}\",
+                  \"serviceId\": \"${RAILWAY_SERVICE_ID}\",
+                  \"environmentId\": \"${RAILWAY_ENVIRONMENT_ID}\",
+                  \"key\": \"APP_VERSION\",
+                  \"value\": \"${VERSION}\"
+                }
+              }
+            }"
+
       # Seta APP_VERSION no service DEV e deploya
       - name: Deploy to Railway (DEV)
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
-          railway variables set APP_VERSION="${{ steps.v.outputs.val }}" -s "${{ vars.RAILWAY_SERVICE_ID }}"
           railway up -s "${{ vars.RAILWAY_SERVICE_ID }}" --ci
