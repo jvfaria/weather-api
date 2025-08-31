@@ -28,7 +28,11 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics
+        include: health,info,metrics,prometheus
+      base-path: /api/actuator
+  endpoint:
+    prometheus:
+      enabled: true
 
 weatherapi:
   i18n:
